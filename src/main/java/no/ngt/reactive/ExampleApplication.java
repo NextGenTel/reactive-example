@@ -8,4 +8,8 @@ public class ExampleApplication extends Application<ExampleConfig> {
 	public void run(ExampleConfig configuration, Environment environment) throws Exception {
 
 	}
+
+	public static void main(String[] args) throws Exception {
+		new ExampleApplication().run(args);
+	}
 }
