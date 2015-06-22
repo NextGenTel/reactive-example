@@ -9,12 +9,16 @@ import static org.junit.Assert.assertEquals;
 
 public class BasicHystrixCommandTest extends BaseSetup {
 
+	public static final HystrixCommandGroupKey COMMAND_GROUP_KEY = HystrixCommandGroupKey.Factory.asKey("test");
+
 	@Test
 	public void testHystrixCommand() throws Exception {
-		HystrixCommand<String> hystrixCommand = new HystrixCommand<String>(HystrixCommandGroupKey.Factory.asKey("test")) {
+		HystrixCommand<String> hystrixCommand = new HystrixCommand<String>(COMMAND_GROUP_KEY) {
 			@Override
 			protected String run() throws Exception {
-				return pingTarget.request().get(String.class);
+				return pingTarget
+						.request()
+						.get(String.class);
 			}
 		};
 
@@ -23,10 +27,13 @@ public class BasicHystrixCommandTest extends BaseSetup {
 
 	@Test(expected = HystrixRuntimeException.class)
 	public void testHystrixCommand_withTimeout() throws Exception {
-		HystrixCommand<String> hystrixCommand = new HystrixCommand<String>(HystrixCommandGroupKey.Factory.asKey("test")) {
+		HystrixCommand<String> hystrixCommand = new HystrixCommand<String>(COMMAND_GROUP_KEY) {
 			@Override
 			protected String run() throws Exception {
-				return pingTarget.queryParam("delay", 2).request().get(String.class);
+				return pingTarget
+						.queryParam("delay", 2)
+						.request()
+						.get(String.class);
 			}
 		};
 
@@ -35,10 +42,13 @@ public class BasicHystrixCommandTest extends BaseSetup {
 
 	@Test
 	public void testHystrixCommand_withFallbackAndTimeout() throws Exception {
-		HystrixCommand<String> hystrixCommand = new HystrixCommand<String>(HystrixCommandGroupKey.Factory.asKey("test")) {
+		HystrixCommand<String> hystrixCommand = new HystrixCommand<String>(COMMAND_GROUP_KEY) {
 			@Override
 			protected String run() throws Exception {
-				return pingTarget.queryParam("delay", 2).request().get(String.class);
+				return pingTarget
+						.queryParam("delay", 2)
+						.request()
+						.get(String.class);
 			}
 
 			@Override
